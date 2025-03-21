@@ -1,5 +1,5 @@
 services:
-  short-link-web:
+  short-link:
     build:
       context: .
       dockerfile: Dockerfile
