@@ -1,6 +1,6 @@
 {
   "name": "short-link",
-  "version": "1.0",
+  "version": "2.7.4",
   "description": "Modern URL shortener.",
   "main": "./production-server/server.js",
   "scripts": {
