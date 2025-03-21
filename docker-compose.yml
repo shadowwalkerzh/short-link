@@ -3,48 +3,36 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: short-link:1.0
+    image: walkerzhuo/short-link:1.0
+    container_name: standalone.short-link
     depends_on:
-      postgres:
-        condition: service_healthy
-        restart: true
-      redis:
-        condition: service_healthy
-        restart: true
-    command: ./wait-for-it.sh postgres:5432 --npm start
+      - postgres
+      - redis
+    command: ./wait-for-it.sh postgres:5432 -- npm start
     ports:
       - "3000:3000"
+    env_file:
+      - .example.env # rename this file to .env on production
     environment:
       DB_HOST: postgres
-      DB_NAME: short_link
-      DB_USER: user
-      DB_PASSWORD: pass
       REDIS_HOST: redis
 
   redis:
     image: redis:6.0-alpine
     volumes:
-      - redis_data:/data
+      - short_link_redis_data:/data
 
   postgres:
     image: postgres:12-alpine
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
-      POSTGRES_DB: kutt
+      POSTGRES_DB: short_link
+    ports: 
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - short_link_postgres_data:/var/lib/postgresql/data
 
 volumes:
-  redis_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/short-link/db_data/redis_data
-      o: bind
-  postgres_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/short-link/db_data/postgres_data
-      o: bind
+  short_link_redis_data:
+  short_link_postgres_data:

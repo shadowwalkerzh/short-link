@@ -1,8 +1,21 @@
 # How to run project locally?
-- cp .example.env to .env
+- cp .example.env to .env and edit the docker-compose file: `env_file: - .env` (Highly recommended)
 - docker build -t short-link:1.0 .
 - docker-compose up -d
+- If you are using the latest docker and docker compose, please exec like this:
+    - docker compose -f docker-compose.yml --verbose build
+    - docker compose -f docker-compose.yml -v up -d
+
+# How to visit the system？
 - Default admin account: `short_link@gmail.com`, password: `changeMe123`
+- Default website login page: `http://localhost:3000/login` # you can customize your domain
+- Default website home page: `http://localhost:3000`
+- Default postgresql config:
+    - username: user
+    - password: pass
+    - host: postgres
+    - database: short_link
+    - port: 5432
 
 # short-link
 
